@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "../assets/css/cake.css";
-import { CakeSVG, confetti } from "../assets";
+import { CakeSVG } from "../assets";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
@@ -77,12 +77,36 @@ function Cake() {
     <>
       <div className="bg-black/80 h-screen w-screen flex items-center justify-center overflow-hidden relative">
         {candlesBlownOut && (
-          <div
-            className="absolute inset-0 bg-cover bg-center z-50"
-            style={{
-              backgroundImage: `url(${confetti})`,
-            }}
-          />
+          <div className="absolute inset-0 z-50 overflow-hidden">
+            {/* Confetti pieces */}
+            {[...Array(50)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-2 h-2 rounded-sm"
+                style={{
+                  backgroundColor: [
+                    '#c85a5a', // muted red
+                    '#a8d5ba', // muted green
+                    '#e2d05f'  // muted yellow
+                  ][i % 3],
+                  left: `${Math.random() * 100}%`,
+                  top: '-10px'
+                }}
+                initial={{ y: -10, rotate: 0 }}
+                animate={{
+                  y: window.innerHeight + 100,
+                  rotate: 360,
+                  x: (Math.random() - 0.5) * 200
+                }}
+                transition={{
+                  duration: Math.random() * 3 + 2,
+                  delay: Math.random() * 2,
+                  repeat: Infinity,
+                  repeatDelay: Math.random() * 2
+                }}
+              />
+            ))}
+          </div>
         )}
         {candlesBlownOut && (
           <motion.div
@@ -100,16 +124,29 @@ function Cake() {
                   stroke="white"
                 />
               </defs>
-              <text fontSize="40" fill="white" textAnchor="middle">
+              <text fontSize="35" fill="white" textAnchor="middle">
                 <textPath href="#curve" startOffset="50%">
-                  Happy Birthday!
+                  happy sproot day !!
                 </textPath>
               </text>
             </svg>
-            <Link to="/present" className="flex justify-center items-center">
-              <p className="absolute top-[30rem] xs:top-[36rem] s:top-[40rem] px-7 py-3 bg-customBlue text-white rounded-full hover:bg-blue-600 font-medium text-base text-center ">
-                Next Page
-              </p>
+            <Link to="/present" className="absolute top-[30rem] xs:top-[36rem] s:top-[40rem] right-8 text-white transition-all duration-200 hover:scale-110">
+              <svg 
+                className="w-8 h-8" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+                style={{ 
+                  textShadow: '2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000'
+                }}
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M9 5l7 7-7 7" 
+                />
+              </svg>
             </Link>
           </motion.div>
         )}
